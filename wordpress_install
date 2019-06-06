@@ -1,0 +1,53 @@
+#!/bin/bash -e
+clear
+echo "============================================"
+echo "Wordpressi installatsioon algab"
+echo "============================================"
+echo "Andmebaasi nimi: "
+read -e dbname
+echo "Andmebaasi kasutaja: "
+read -e dbuser
+echo "Andmebaasi kasutaja parool: "
+read -s dbpass
+#echo "Palun minge asukohta kuhu soovite Wordpressi installida"
+echo "run install? (y/n)"
+read -e run
+if [ "$run" == n ] ; then
+exit
+else
+echo "============================================"
+echo "Oodake natuke palun"
+echo "============================================"
+#Laeb alla ning pakib lahti
+cd /var/www/html
+wget https://wordpress.org/latest.tar.gz
+
+tar -zxvf latest.tar.gz
+
+cd wordpress
+
+cp -rf . ..
+
+cd ..
+
+rm -R wordpress
+
+cp wp-config-sample.php wp-config.php
+#set database details with perl find and replace
+perl -pi -e "s/database_name_here/$dbname/g" wp-config.php
+perl -pi -e "s/username_here/$dbuser/g" wp-config.php
+perl -pi -e "s/password_here/$dbpass/g" wp-config.php
+
+
+
+mkdir wp-content/uploads
+chmod 775 wp-content/uploads
+chmod 775 ../*
+echo "Kustutan prügi..."
+
+rm latest.tar.gz
+#remove bash script
+echo "========================="
+echo "Wordpress on nüüd valmis"
+echo "========================="
+fi

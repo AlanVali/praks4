@@ -1,0 +1,17 @@
+#!/bin/bash
+
+NGINX=$(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed")
+
+if [ $NGINX -eq 0 ] ;
+then
+	echo "Pole nginx moodulit - Alustan installimist"
+	apt-add-repository ppa:nginx/development -y
+	apt-add-repository ppa:ondrej/php -y
+	apt install nginx-full -y
+	apt install nginx -y
+elif [ $NGINX -eq 1 ]
+then
+	echo "NGINX on juba olemas"
+	pause
+	systemctl status nginx
+fi

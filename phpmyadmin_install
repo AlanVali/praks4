@@ -1,0 +1,14 @@
+#!/bin/bash
+
+phpmyadmin=$(dpkg-query -W -f='${Status}' phpmyadmin 2>/dev/null | grep -c "ok installed")
+
+if [ $phpmyadmin -eq 0 ] ;
+then
+	echo "Pole phpmyadminit - Alustan installimist"
+	apt-get -y install phpmyadmin
+elif [ $phpmyadmin -eq 1 ]
+then
+	echo "Phpmyadmin on juba olemas"
+	pause
+	systemctl status phpmyadmin
+fi

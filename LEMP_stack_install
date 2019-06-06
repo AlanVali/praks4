@@ -1,0 +1,9 @@
+#!/bin/bash
+
+systemctl disable apache2
+./nginx_install
+./php_install
+./mysql_install
+./phpmyadmin_install
+./wordpress_install
+
